@@ -81,11 +81,11 @@ public class ConstellationService {
     }
 
 
-    public Constellations nameOfConstelationHasBrihtestStar() {
+    public String nameOfConstelationHasBrihtestStar() {
         List<Stars> starsList = starsRepo.findAll();
         starsList.sort((o1, o2) -> o1.getBrightness() > o2.getBrightness() ? 1 : -1);
         Stars star = starsList.get(0);
-        return star.getConstellation();
+        return star.getConstellation().getName();
 
 //
 //        List<Constellations> constellationsList = constellationsRepo.findAll();

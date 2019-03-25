@@ -5,19 +5,13 @@ package com.nightingalee.controller;
 //import org.jboss.shrinkwrap.api.ShrinkWrap;
 //import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 //import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import com.nightingalee.exception.NewException;
+
 import com.nightingalee.model.Constellations;
 import com.nightingalee.model.Stars;
 import com.nightingalee.service.ConstellationService;
-import com.nightingalee.service.StarsService;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -48,8 +42,7 @@ public class ConstellationControllerTest {
 
     @Mock
     private ConstellationService constellationServiceMock;
-    @Mock
-    private StarsService starService;
+
 
     private MockMvc mockMvc;
 
@@ -61,48 +54,48 @@ public class ConstellationControllerTest {
     @Test
     public void addStar() throws Exception {
 
-        Constellations constellations = new Constellations("Abc",2,3);
-        Mockito.when(constellationServiceMock.changeStarConstellation(18L,"Abc"))
+        Constellations constellations = new Constellations("Abc", 2, 3);
+        Mockito.when(constellationServiceMock.changeStarConstellation(18L, "Abc"))
                 .thenReturn(constellations);
         mockMvc.perform(MockMvcRequestBuilders.post("/constellations/addStar/18/Abc"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].declination").value(3));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.declination").value(3));
 
     }
 
     @Test
     public void longest() throws Exception {
-        Constellations constellations = new Constellations("Qwerty",2,3);
-        Constellations constellations1 = new Constellations("Qwe",3,2);
+        Constellations constellations = new Constellations("Qwerty", 2, 3);
+        Constellations constellations1 = new Constellations("Qwe", 3, 2);
         Mockito.when(constellationServiceMock.longestNazwaOfConstellation()).thenReturn(constellations.getName());
         mockMvc.perform(MockMvcRequestBuilders.get(("/constellations/longestNazwa")))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0]").value("Qwerty"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$").value("Qwerty"));
     }
 
     @Test
     public void highest() throws Exception {
-        Constellations constellations = new Constellations("Qwerty",2,3);
-        Constellations constellations1 = new Constellations("Qwe",3,2);
-        Mockito.when(constellationServiceMock.longestNazwaOfConstellation()).thenReturn(constellations.getName());
+        Constellations constellations = new Constellations("Qwerty", 2, 3);
+        Constellations constellations1 = new Constellations("Qwe", 3, 2);
+        Mockito.when(constellationServiceMock.nameOfHighestConstellation()).thenReturn(constellations.getName());
         mockMvc.perform(MockMvcRequestBuilders.get(("/constellations/highestStar")))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("nazwa").value("Qwerty"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$").value("Qwerty"));
     }
 
     @Test
     public void brighest() throws Exception {
-        Constellations constellations = new Constellations("Qwerty",2,3);
+        Constellations constellations = new Constellations("Qwerty", 2, 3);
         List<Stars> conList = new ArrayList<>();
-        conList.add(new Stars("a",-1));
+        conList.add(new Stars("a", -1));
         constellations.setStars(conList);
-        Constellations constellations1 = new Constellations("Qwe",3,2);
+        Constellations constellations1 = new Constellations("Qwe", 3, 2);
         List<Stars> conList1 = new ArrayList<>();
-        conList.add(new Stars("a",2));
-        constellations.setStars(conList1);
-        Mockito.when(constellationServiceMock.longestNazwaOfConstellation()).thenReturn(constellations.getName());
+        conList1.add(new Stars("a", 2));
+        constellations1.setStars(conList1);
+        Mockito.when(constellationServiceMock.nameOfConstelationHasBrihtestStar()).thenReturn(constellations.getName());
         mockMvc.perform(MockMvcRequestBuilders.get(("/constellations/brighestStar")))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Qwerty"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$").value(constellations.getName()));
     }
 }

@@ -45,35 +45,34 @@ public class StarsService {
         return result;
     }
 
-    public Stars changeBrightness(Long id, double brightness)throws NewException {
+    public Stars changeBrightness(Long id, double brightness) throws NewException {
         Stars result = new Stars();
-        if(starsRepo.findById(id).isPresent()){
+        if (starsRepo.findById(id).isPresent()) {
             starsRepo.findById(id).get().setBrightness(brightness);
             result = starsRepo.findById(id).get();
-        }
-        else {
+        } else {
             throw new NewException("Id number does not exist");
         }
         return result;
     }
 
-    public List<String> nameContainingX(){
+    public List<String> nameContainingX() {
         List<String> s = new ArrayList();
         for (Stars stars : starsRepo.findAll()) {
-            if(stars.getNazwa().contains("x")){
+            if (stars.getNazwa().contains("x")) {
                 s.add(stars.getNazwa());
             }
         }
         return s;
     }
 
-    public String changePolarisPosition(double dec){
-        if(dec > 90 || dec < 0) {
+    public String changePolarisPosition(double dec) {
+        if (dec > 90 || dec < 0) {
             Stars star = starsRepo.findByNazwaContaining("Polaris");
             Optional<Constellations> con = constellationsRepo.findById(star.getConstellation().getName());
             con.get().setDeclination(dec);
         }
-        return "Twoje położenie to " + dec +" " + "szeroości geograficznej";
+        return "Twoje położenie to " + dec + " " + "szeroości geograficznej";
     }
 
     public List<Stars> longestConstellationNameStars() {

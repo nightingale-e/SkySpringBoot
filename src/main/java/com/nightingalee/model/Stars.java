@@ -1,8 +1,6 @@
 package com.nightingalee.model;
 
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 
 @Entity(name = "Stars")

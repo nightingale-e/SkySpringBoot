@@ -3,7 +3,6 @@ package com.nightingalee.service;
 import com.nightingalee.exception.NewException;
 import com.nightingalee.model.Constellations;
 import com.nightingalee.repository.ConstellationsRepo;
-import com.nightingalee.repository.StarsRepo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,14 +25,9 @@ public class ConstellationServiceTest {
     @InjectMocks
     private ConstellationService constellationServiceMock;
 
-    @Mock
-    private ConstellationService constellationService;
 
     @Mock
     private ConstellationsRepo constellationsRepoMock;
-
-    @Mock
-    private StarsRepo starsRepoMock;
 
 
     @Test
