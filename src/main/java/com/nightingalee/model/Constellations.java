@@ -17,7 +17,7 @@ public class Constellations {
     @Id
     @NotEmpty
     @NotNull
-    private String nazwa;
+    private String name;
 
     private double rightAnscesion; //RIGHT_ANSCESION
     private double declination;
@@ -26,21 +26,21 @@ public class Constellations {
     @OneToMany(mappedBy = "constellation", cascade = CascadeType.REMOVE)
     private List<Stars> stars;
 
-    public Constellations(@NotEmpty @NotNull String nazwa) {
-        this.nazwa = nazwa;
+    public Constellations(@NotEmpty @NotNull String name) {
+        this.name = name;
     }
 
     public Constellations() {
     }
 
-    public Constellations(@NotEmpty @NotNull String nazwa, double rightAnscesion, double declination) {
-        this.nazwa = nazwa;
+    public Constellations(@NotEmpty @NotNull String name, double rightAnscesion, double declination) {
+        this.name = name;
         this.rightAnscesion = rightAnscesion;
         this.declination = declination;
     }
 
     public String getName() {
-        return nazwa;
+        return name;
     }
 
     public double getRightAnscesion() {
@@ -55,8 +55,8 @@ public class Constellations {
         return stars;
     }
 
-    public void setNazwa(String nazwa) {
-        this.nazwa = nazwa;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setRightAnscesion(double rightAnscesion) {
@@ -80,14 +80,14 @@ public class Constellations {
 
         if (Double.compare(that.rightAnscesion, rightAnscesion) != 0) return false;
         if (Double.compare(that.declination, declination) != 0) return false;
-        return nazwa != null ? nazwa.equals(that.nazwa) : that.nazwa == null;
+        return name != null ? name.equals(that.name) : that.name == null;
     }
 
     @Override
     public int hashCode() {
         int result;
         long temp;
-        result = nazwa != null ? nazwa.hashCode() : 0;
+        result = name != null ? name.hashCode() : 0;
         temp = Double.doubleToLongBits(rightAnscesion);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         temp = Double.doubleToLongBits(declination);

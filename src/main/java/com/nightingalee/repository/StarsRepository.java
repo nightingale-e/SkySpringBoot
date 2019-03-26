@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface StarsRepo extends JpaRepository<Stars, Long> {
-    Stars findByNazwaContaining(String nazwa);
+public interface StarsRepository extends JpaRepository<Stars, Long> {
+    Stars findByNameContaining(String name);
 }

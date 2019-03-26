@@ -2,7 +2,7 @@ package com.nightingalee.service;
 
 import com.nightingalee.exception.NewException;
 import com.nightingalee.model.Constellations;
-import com.nightingalee.repository.ConstellationsRepo;
+import com.nightingalee.repository.ConstellationsRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,13 +27,13 @@ public class ConstellationServiceTest {
 
 
     @Mock
-    private ConstellationsRepo constellationsRepoMock;
+    private ConstellationsRepository constellationsRepositoryMock;
 
 
     @Test
     public void addCon() {
         Constellations e = new Constellations();
-        Mockito.when(constellationsRepoMock.save(e)).thenReturn(e);
+        Mockito.when(constellationsRepositoryMock.save(e)).thenReturn(e);
         assertEquals(constellationServiceMock.addCon(e), e);
     }
 
@@ -53,8 +53,8 @@ public class ConstellationServiceTest {
 
     @Test
     public void removeCon() {
-        constellationsRepoMock.deleteById("Wielka Niedżwiedzica");
-        Mockito.verify(constellationsRepoMock,
+        constellationsRepositoryMock.deleteById("Wielka Niedżwiedzica");
+        Mockito.verify(constellationsRepositoryMock,
                 Mockito.times(1)).deleteById("Wielka Niedżwiedzica");
     }
 
@@ -63,7 +63,7 @@ public class ConstellationServiceTest {
         Constellations e = new Constellations();
         List<Constellations> c = new ArrayList<>();
         c.add(e);
-        Mockito.when(constellationsRepoMock.findAll()).thenReturn(c);
+        Mockito.when(constellationsRepositoryMock.findAll()).thenReturn(c);
         assertEquals(constellationServiceMock.findCon(), c);
 
     }

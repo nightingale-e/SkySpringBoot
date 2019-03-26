@@ -7,7 +7,6 @@ package com.nightingalee.controller;
 //import org.jboss.shrinkwrap.api.spec.JavaArchive;
 
 import com.nightingalee.model.Constellations;
-import com.nightingalee.model.Stars;
 import com.nightingalee.service.ConstellationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -66,9 +65,12 @@ public class ConstellationControllerTest {
     @Test
     public void longest() throws Exception {
         Constellations constellations = new Constellations("Qwerty", 2, 3);
-        Constellations constellations1 = new Constellations("Qwe", 3, 2);
-        Mockito.when(constellationServiceMock.longestNazwaOfConstellation()).thenReturn(constellations.getName());
-        mockMvc.perform(MockMvcRequestBuilders.get(("/constellations/longestNazwa")))
+//        Constellations constellations1 = new Constellations("Qwertyui", 3, 2);
+//        List<Constellations> constellationsList = new ArrayList<>();
+//        constellationsList.add(constellations);
+//        constellationsList.add(constellations1);
+        Mockito.when(constellationServiceMock.longestNameOfConstellation()).thenReturn(constellations.getName());
+        mockMvc.perform(MockMvcRequestBuilders.get(("/constellations/longestName")))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$").value("Qwerty"));
     }
@@ -77,6 +79,9 @@ public class ConstellationControllerTest {
     public void highest() throws Exception {
         Constellations constellations = new Constellations("Qwerty", 2, 3);
         Constellations constellations1 = new Constellations("Qwe", 3, 2);
+        List<Constellations> constellationsList = new ArrayList<>();
+        constellationsList.add(constellations);
+        constellationsList.add(constellations1);
         Mockito.when(constellationServiceMock.nameOfHighestConstellation()).thenReturn(constellations.getName());
         mockMvc.perform(MockMvcRequestBuilders.get(("/constellations/highestStar")))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -84,18 +89,18 @@ public class ConstellationControllerTest {
     }
 
     @Test
-    public void brighest() throws Exception {
+    public void brightest() throws Exception {
         Constellations constellations = new Constellations("Qwerty", 2, 3);
-        List<Stars> conList = new ArrayList<>();
-        conList.add(new Stars("a", -1));
-        constellations.setStars(conList);
-        Constellations constellations1 = new Constellations("Qwe", 3, 2);
-        List<Stars> conList1 = new ArrayList<>();
-        conList1.add(new Stars("a", 2));
-        constellations1.setStars(conList1);
-        Mockito.when(constellationServiceMock.nameOfConstelationHasBrihtestStar()).thenReturn(constellations.getName());
-        mockMvc.perform(MockMvcRequestBuilders.get(("/constellations/brighestStar")))
+//        List<Stars> conList = new ArrayList<>();
+//        conList.add(new Stars("a", -1));
+//        constellations.setStars(conList);
+//        Constellations constellations1 = new Constellations("Qwe", 3, 2);
+//        List<Stars> conList1 = new ArrayList<>();
+//        conList1.add(new Stars("a", 2));
+//        constellations1.setStars(conList1);
+        Mockito.when(constellationServiceMock.nameOfConstellationHasBrightestStar()).thenReturn(constellations.getName());
+        mockMvc.perform(MockMvcRequestBuilders.get(("/constellations/brightestStar")))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$").value(constellations.getName()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$").value("Qwerty"));
     }
 }

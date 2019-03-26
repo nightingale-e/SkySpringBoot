@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface ConstellationsRepo extends JpaRepository<Constellations, String> {
+public interface ConstellationsRepository extends JpaRepository<Constellations, String> {
 
 }

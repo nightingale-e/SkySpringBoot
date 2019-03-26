@@ -2,7 +2,7 @@ package com.nightingalee.service;
 
 import com.nightingalee.exception.NewException;
 import com.nightingalee.model.Stars;
-import com.nightingalee.repository.StarsRepo;
+import com.nightingalee.repository.StarsRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,26 +23,26 @@ class StarsServiceTest {
     private StarsService starsService;
 
     @Mock
-    private StarsRepo starsRepo;
+    private StarsRepository starsRepository;
 
     @Test
     public void addSta() {
         Stars e = new Stars();
-        Mockito.when(starsRepo.save(e)).thenReturn(e);
+        Mockito.when(starsRepository.save(e)).thenReturn(e);
         assertEquals(starsService.addSta(e), e);
     }
 
     @Test
     public void removeCon() {
-        starsRepo.deleteById(18L);
-        Mockito.verify(starsRepo,
+        starsRepository.deleteById(18L);
+        Mockito.verify(starsRepository,
                 Mockito.times(1)).deleteById(18L);
     }
 
     @Test
     public void updateCon() throws NewException {
         assertThrows(NewException.class, () -> {
-            starsService.updateSta(2L, "pustyName");
+            starsService.updateStarName(2L, "pustyName");
         });
     }
 
@@ -51,7 +51,7 @@ class StarsServiceTest {
         Stars e = new Stars();
         List<Stars> c = new ArrayList<>();
         c.add(e);
-        Mockito.when(starsRepo.findAll()).thenReturn(c);
+        Mockito.when(starsRepository.findAll()).thenReturn(c);
         assertEquals(starsService.findSta(), c);
 
     }

@@ -3,8 +3,8 @@ package com.nightingalee.service;
 import com.nightingalee.exception.NewException;
 import com.nightingalee.model.Constellations;
 import com.nightingalee.model.Stars;
-import com.nightingalee.repository.ConstellationsRepo;
-import com.nightingalee.repository.StarsRepo;
+import com.nightingalee.repository.ConstellationsRepository;
+import com.nightingalee.repository.StarsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,28 +16,29 @@ import java.util.Optional;
 public class StarsService {
 
     @Autowired
-    private StarsRepo starsRepo;
+    private StarsRepository starsRepository;
 
     @Autowired
-    private ConstellationsRepo constellationsRepo;
+    private ConstellationsRepository constellationsRepository;
 
 
     public Stars addSta(Stars star) {
-        return starsRepo.save(star);
+        return starsRepository.save(star);
     }
 
     public void removeSta(Long id) {
-        starsRepo.deleteById(id);
+        starsRepository.deleteById(id);
     }
 
     public List<Stars> findSta() {
-        return starsRepo.findAll();
+        return starsRepository.findAll();
     }
 
-    public Stars updateSta(Long id, String name) throws NewException {
+    public Stars updateStarName(Long id, String name) throws NewException {
         Stars result;
-        if (starsRepo.findById(id).isPresent()) {
-            result = starsRepo.findById(id).get();
+        if (starsRepository.findById(id).isPresent()) {
+            starsRepository.findById(id).get().setName(name);
+            result = starsRepository.findById(id).get();
         } else {
             throw new NewException("Id number does not exist");
 
@@ -47,20 +48,20 @@ public class StarsService {
 
     public Stars changeBrightness(Long id, double brightness) throws NewException {
         Stars result = new Stars();
-        if (starsRepo.findById(id).isPresent()) {
-            starsRepo.findById(id).get().setBrightness(brightness);
-            result = starsRepo.findById(id).get();
+        if (starsRepository.findById(id).isPresent()) {
+            starsRepository.findById(id).get().setBrightness(brightness);
+            result = starsRepository.findById(id).get();
         } else {
             throw new NewException("Id number does not exist");
         }
         return result;
     }
 
-    public List<String> nameContainingX() {
+    public List<String> constellationNameContainingX() {
         List<String> s = new ArrayList();
-        for (Stars stars : starsRepo.findAll()) {
-            if (stars.getNazwa().contains("x")) {
-                s.add(stars.getNazwa());
+        for (Stars stars : starsRepository.findAll()) {
+            if (stars.getName().contains("x")) {
+                s.add(stars.getName());
             }
         }
         return s;
@@ -68,17 +69,17 @@ public class StarsService {
 
     public String changePolarisPosition(double dec) {
         if (dec > 90 || dec < 0) {
-            Stars star = starsRepo.findByNazwaContaining("Polaris");
-            Optional<Constellations> con = constellationsRepo.findById(star.getConstellation().getName());
+            Stars star = starsRepository.findByNameContaining("Polaris");
+            Optional<Constellations> con = constellationsRepository.findById(star.getConstellation().getName());
             con.get().setDeclination(dec);
         }
         return "Twoje położenie to " + dec + " " + "szeroości geograficznej";
     }
 
-    public List<Stars> longestConstellationNameStars() {
+    public List<Stars> longestConstellationNameStarsList() {
         int i = 0;
         List<Stars> result = new ArrayList<>();
-        for (Constellations constellations : constellationsRepo.findAll()) {
+        for (Constellations constellations : constellationsRepository.findAll()) {
             if (i < constellations.getName().length()) {
                 result = constellations.getStars();
             }

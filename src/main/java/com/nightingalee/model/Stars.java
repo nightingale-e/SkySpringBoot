@@ -9,15 +9,15 @@ public class Stars {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long starId;
-    private String nazwa;
+    private String name;
     private double brightness;
 
     //@JsonManagedReference
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Constellations constellation;
 
-    public Stars(String nazwa, double brightness) {
-        this.nazwa = nazwa;
+    public Stars(String name, double brightness) {
+        this.name = name;
         this.brightness = brightness;
     }
 
@@ -28,8 +28,8 @@ public class Stars {
         this.starId = starId;
     }
 
-    public void setNazwa(String nazwa) {
-        this.nazwa = nazwa;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setBrightness(double brightness) {
@@ -45,8 +45,8 @@ public class Stars {
         return starId;
     }
 
-    public String getNazwa() {
-        return nazwa;
+    public String getName() {
+        return name;
     }
 
     public double getBrightness() {

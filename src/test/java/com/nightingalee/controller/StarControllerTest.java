@@ -2,7 +2,7 @@ package com.nightingalee.controller;
 
 import com.nightingalee.model.Constellations;
 import com.nightingalee.model.Stars;
-import com.nightingalee.repository.StarsRepo;
+import com.nightingalee.repository.StarsRepository;
 import com.nightingalee.service.StarsService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,7 +37,7 @@ class StarControllerTest {
     private StarsService starService;
 
     @Mock
-    private StarsRepo starsRepo;
+    private StarsRepository starsRepository;
 
     private MockMvc mockMvc;
 
@@ -96,7 +96,7 @@ class StarControllerTest {
         Stars star = new Stars("a", 2);
         star.setStarId(2L);
         star.setConstellation(new Constellations("Pies"));
-        Mockito.when(starService.updateSta(2L, "Pies"))
+        Mockito.when(starService.updateStarName(2L, "Pies"))
                 .thenReturn(star);
         mockMvc.perform(MockMvcRequestBuilders.post("/stars/update/2/Pies"))
                 .andExpect(status().isOk())
@@ -124,8 +124,8 @@ class StarControllerTest {
         Stars star = new Stars("xyz", 2.4);
         Stars star1 = new Stars("abc", 4);
         List<String> strings = new ArrayList<>();
-        strings.add(star.getNazwa());
-        Mockito.when(starService.nameContainingX()).thenReturn(strings);
+        strings.add(star.getName());
+        Mockito.when(starService.constellationNameContainingX()).thenReturn(strings);
         mockMvc.perform(MockMvcRequestBuilders.get(("/stars/namesContaingX")))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0]").value("xyz"));
@@ -155,7 +155,7 @@ class StarControllerTest {
         List<Stars> starsList = new LinkedList<>();
         starsList.add(stars);
         constellations1.setStars(starsList);
-        Mockito.when(starService.longestConstellationNameStars()).thenReturn(starsList);
+        Mockito.when(starService.longestConstellationNameStarsList()).thenReturn(starsList);
         mockMvc.perform(MockMvcRequestBuilders.get(("/stars/starList")))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].nazwa").value("abc"));

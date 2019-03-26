@@ -36,15 +36,15 @@ public class ConstellationController {
         return constellationService.updateCon(id, dec, ra);
     }
 
-    @PostMapping("/addStar/{starId}/{nazwa}")
-    public Constellations addStar(@PathVariable Long starId, @PathVariable String nazwa) throws NewException {
-        return constellationService.changeStarConstellation(starId, nazwa);
+    @PostMapping("/addStar/{starId}/{name}")
+    public Constellations addStar(@PathVariable Long starId, @PathVariable String name) throws NewException {
+        return constellationService.changeStarConstellation(starId, name);
 
     }
 
-    @GetMapping("/longestNazwa")
+    @GetMapping("/longestName")
     public String longest() {
-        return constellationService.longestNazwaOfConstellation();
+        return constellationService.longestNameOfConstellation();
     }
 
     @GetMapping("/highestStar")
@@ -52,9 +52,9 @@ public class ConstellationController {
         return constellationService.nameOfHighestConstellation();
     }
 
-    @GetMapping("/brighestStar")
-    public String brighest() {
-        return constellationService.nameOfConstelationHasBrihtestStar();
+    @GetMapping("/brightestStar")
+    public String brightest() {
+        return constellationService.nameOfConstellationHasBrightestStar();
     }
 
 

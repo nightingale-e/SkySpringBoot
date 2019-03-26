@@ -34,7 +34,7 @@ public class StarController {
 
     @PostMapping("/update/{id}/{name}")
     public Stars update(@PathVariable Long id, @PathVariable String name) throws NewException {
-        return starsService.updateSta(id, name);
+        return starsService.updateStarName(id, name);
     }
 
     @PostMapping("/changeBrightness/{id}/{bri}")
@@ -42,9 +42,9 @@ public class StarController {
         return starsService.changeBrightness(id, bri);
     }
 
-    @GetMapping("/namesContaingX")
-    public List<String> namesContain() {
-        return starsService.nameContainingX();
+    @GetMapping("/namesContainingX")
+    public List<String> namesContains() {
+        return starsService.constellationNameContainingX();
     }
 
 
@@ -55,7 +55,7 @@ public class StarController {
 
     @GetMapping("/starList")
     public List<Stars> longestNameStars() {
-        return starsService.longestConstellationNameStars();
+        return starsService.longestConstellationNameStarsList();
     }
 
 

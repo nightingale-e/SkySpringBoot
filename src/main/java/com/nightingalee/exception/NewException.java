@@ -2,9 +2,7 @@ package com.nightingalee.exception;
 
 
 public class NewException extends Exception {
-
-    public NewException(String mes) {
-        super(mes);
+    public NewException(String message) {
+        super(message);
     }
-
 }
