@@ -8,9 +8,10 @@ import com.nightingalee.repository.StarsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class StarsService {
@@ -22,9 +23,12 @@ public class StarsService {
     private ConstellationsRepository constellationsRepository;
 
 
-    public Stars addSta(Stars star) {
-        return starsRepository.save(star);
+    public Stars addSta(Stars star) throws NewException {
+        if (!starsRepository.findById(star.getStarId()).isPresent()) {
+            return starsRepository.save(star);
+        } else throw new NewException("Star already exists");
     }
+
 
     public void removeSta(Long id) {
         starsRepository.deleteById(id);
@@ -47,10 +51,10 @@ public class StarsService {
     }
 
     public Stars changeBrightness(Long id, double brightness) throws NewException {
-        Stars result = new Stars();
-        if (starsRepository.findById(id).isPresent()) {
-            starsRepository.findById(id).get().setBrightness(brightness);
-            result = starsRepository.findById(id).get();
+        Stars result = starsRepository.getOne(id);
+        if (result.getStarId() == id) {
+            result.setBrightness(brightness);
+            starsRepository.save(result);
         } else {
             throw new NewException("Id number does not exist");
         }
@@ -58,33 +62,35 @@ public class StarsService {
     }
 
     public List<String> constellationNameContainingX() {
-        List<String> s = new ArrayList();
-        for (Stars stars : starsRepository.findAll()) {
-            if (stars.getName().contains("x")) {
-                s.add(stars.getName());
-            }
-        }
-        return s;
+       // List<String> s = new ArrayList();
+        //  List<Constellations> list = constellationsRepository.findAll();
+
+        List<String> list = constellationsRepository.findAll()
+                .stream()
+                .filter(c -> "x".contains(c.getName()))
+                .map(Constellations::getName)
+                .collect(Collectors.toList());
+
+        return list;
     }
 
-    public String changePolarisPosition(double dec) {
+    public String changePolarisPosition(double dec) throws NewException {
         if (dec > 90 || dec < 0) {
             Stars star = starsRepository.findByNameContaining("Polaris");
             Optional<Constellations> con = constellationsRepository.findById(star.getConstellation().getName());
             con.get().setDeclination(dec);
-        }
-        return "Twoje położenie to " + dec + " " + "szeroości geograficznej";
+        } else throw new NewException("Wrong dec value");
+        return "Twoje położenie to " + dec + " " + "szerokości geograficznej";
     }
 
     public List<Stars> longestConstellationNameStarsList() {
-        int i = 0;
-        List<Stars> result = new ArrayList<>();
-        for (Constellations constellations : constellationsRepository.findAll()) {
-            if (i < constellations.getName().length()) {
-                result = constellations.getStars();
-            }
-        }
-        return result;
+
+        List<Stars> list = constellationsRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(Constellations::getName))
+                .limit(1).flatMap(n -> n.getStars().stream()).collect(Collectors.toList());
+
+        return list;
     }
 
 }

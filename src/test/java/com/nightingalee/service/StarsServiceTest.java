@@ -3,6 +3,7 @@ package com.nightingalee.service;
 import com.nightingalee.exception.NewException;
 import com.nightingalee.model.Stars;
 import com.nightingalee.repository.StarsRepository;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,10 +27,10 @@ class StarsServiceTest {
     private StarsRepository starsRepository;
 
     @Test
-    public void addSta() {
+    public void addSta() throws NewException {
         Stars e = new Stars();
         Mockito.when(starsRepository.save(e)).thenReturn(e);
-        assertEquals(starsService.addSta(e), e);
+        Assert.assertEquals(e, starsService.addSta(e));
     }
 
     @Test

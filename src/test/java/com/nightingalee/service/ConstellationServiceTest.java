@@ -78,6 +78,9 @@ public class ConstellationServiceTest {
         });
     }
 
+
+
+
     @Test
     public void changeStarConst() {
         assertThrows(NewException.class, () -> {

@@ -9,10 +9,12 @@ import com.nightingalee.repository.StarsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Service
@@ -71,23 +73,33 @@ public class ConstellationService {
     }
 
     public String longestNameOfConstellation() {
-        int i = 0;
-        String result = new String();
-        for (Constellations constellations : constellationsRepository.findAll()) {
-            if (i < constellations.getName().length()) {
-                result = constellations.getName();
-            }
-        }
-        return result;
+//        int i = 0;
+//        String result = new String();
+//        for (Constellations constellations : constellationsRepository.findAll()) {
+//            if (i < constellations.getName().length()) {
+//                result = constellations.getName();
+//            }
+//        }
+        String constellations = constellationsRepository.findAll().stream()
+                .max(Comparator.comparing(Constellations::getName).reversed()).get().getName();
+
+
+        return constellations;
     }
 
 
     public String nameOfConstellationHasBrightestStar() {
-        List<Stars> starsList = starsRepository.findAll();
-        starsList.sort((o1, o2) -> o1.getBrightness() > o2.getBrightness() ? 1 : -1);
-        Stars star = starsList.get(0);
-        return star.getConstellation().getName();
+//        List<Stars> starsList = //starsRepository.findAll();
+//        starsList.sort((o1, o2) -> o1.getBrightness() > o2.getBrightness() ? 1 : -1);
+//        Stars star = starsList.get(0);
+//        return star.getConstellation().getName();
+        List<Stars> starsList = starsRepository.findAll().stream()
+                .sorted((o1, o2) -> o1.getBrightness() >o2.getBrightness()?1:-1)
+                .limit(1)
+                .collect(Collectors.toList());
+        String result = starsList.get(0).getConstellation().getName();
 
+        return result;
 //
 //        List<Constellations> constellationsList = constellationsRepo.findAll();
 //        constellationsList.sort(((o1, o2) ->

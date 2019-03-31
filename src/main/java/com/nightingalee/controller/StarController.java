@@ -18,7 +18,7 @@ public class StarController {
     private StarsService starsService;
 
     @PostMapping("/add")
-    public Stars add(@RequestBody Stars stars) {
+    public Stars add(@RequestBody Stars stars) throws NewException {
         return starsService.addSta(stars);
     }
 
@@ -49,7 +49,7 @@ public class StarController {
 
 
     @PostMapping("/currentPosition/{dec}")
-    public String currentPosition(@PathVariable double dec) {
+    public String currentPosition(@PathVariable double dec) throws NewException {
         return starsService.changePolarisPosition(dec);
     }
 

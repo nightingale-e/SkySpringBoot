@@ -58,5 +58,13 @@ public class Stars {
         return constellation;
     }
 
-
+    @Override
+    public boolean equals(Object obj) {
+        boolean result = false;
+        Stars xxx = (Stars) obj;
+        if (xxx.getName().equals(name) && xxx.getBrightness() == brightness) {
+            result = true;
+        }
+        return result;
+    }
 }

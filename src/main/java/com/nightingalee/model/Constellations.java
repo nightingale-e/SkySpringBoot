@@ -3,10 +3,7 @@ package com.nightingalee.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -19,6 +16,7 @@ public class Constellations {
     @NotNull
     private String name;
 
+    @Column(name = "RIGHT_ANSCESION")
     private double rightAnscesion; //RIGHT_ANSCESION
     private double declination;
 
@@ -73,14 +71,20 @@ public class Constellations {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Constellations)) return false;
-
-        Constellations that = (Constellations) o;
-
-        if (Double.compare(that.rightAnscesion, rightAnscesion) != 0) return false;
-        if (Double.compare(that.declination, declination) != 0) return false;
-        return name != null ? name.equals(that.name) : that.name == null;
+//        if (this == o) return true;
+//        if (!(o instanceof Constellations)) return false;
+//
+//        Constellations that = (Constellations) o;
+//
+//        if (Double.compare(that.rightAnscesion, rightAnscesion) != 0) return false;
+//        if (Double.compare(that.declination, declination) != 0) return false;
+//        return name != null ? name.equals(that.name) : that.name == null;
+        boolean result = false;
+        Constellations xxx = (Constellations) o;
+        if (xxx.getDeclination() == declination && xxx.getRightAnscesion() == rightAnscesion) {
+            result = true;
+        }
+        return result;
     }
 
     @Override

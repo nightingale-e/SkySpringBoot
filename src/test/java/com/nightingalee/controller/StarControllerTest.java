@@ -51,8 +51,9 @@ class StarControllerTest {
 
         Stars star = new Stars("a", 2);
         star.setConstellation(new Constellations());
-        Mockito.when(starService.addSta(star))
-                .thenReturn(star);
+        Mockito.when(starService.addSta(star)).thenReturn(star);
+
+
         mockMvc.perform(MockMvcRequestBuilders.post("/stars/add")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(toJson(star)))
@@ -87,7 +88,7 @@ class StarControllerTest {
         Mockito.when(starService.findSta()).thenReturn(starsList);
         mockMvc.perform(MockMvcRequestBuilders.get(("/stars/find")))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].nazwa").value("Qwerty"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Qwerty"));
 //        assertEquals(starsList.size(),2);
     }
 
@@ -126,7 +127,7 @@ class StarControllerTest {
         List<String> strings = new ArrayList<>();
         strings.add(star.getName());
         Mockito.when(starService.constellationNameContainingX()).thenReturn(strings);
-        mockMvc.perform(MockMvcRequestBuilders.get(("/stars/namesContaingX")))
+        mockMvc.perform(MockMvcRequestBuilders.get(("/stars/namesContainingX")))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0]").value("xyz"));
         //assertEquals(strings.size(),1);
@@ -158,7 +159,7 @@ class StarControllerTest {
         Mockito.when(starService.longestConstellationNameStarsList()).thenReturn(starsList);
         mockMvc.perform(MockMvcRequestBuilders.get(("/stars/starList")))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].nazwa").value("abc"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("abc"));
 
 
         // assertEquals(starControllerMock.longestNameStars(),starsList);
